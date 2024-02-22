@@ -7,23 +7,16 @@ on:
     branches: [ "main" ]
 
 jobs:
-  setup:
+  build-and-test:
     runs-on: ubuntu-latest
-    outputs:
-      go-version: ${{ steps.set-output.outputs.go-version }}
     steps:
     - uses: actions/checkout@v3
 
     - name: Set up Go
       uses: actions/setup-go@v4
-      id: go-setup
       with:
-        go-version: 1.21.3
-
-    - name: Set output
-      id: set-output
-      run: echo "::set-output name=go-version::${{ steps.go-setup.outputs.version }}"
-
+        go-version: '1.21.3'
+    
     - name: Set up Rust
       uses: actions-rs/toolchain@v1
       with:
@@ -31,47 +24,19 @@ jobs:
         toolchain: stable
         override: true
 
-  build:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: ${{ needs.setup.outputs.go-version }}
-
-    - name: Generate Go files with `go generate`
+    - name: Run go generate
       run: go generate ./...
 
     - name: Build Go Application
       run: go build -v ./...
 
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: ${{ needs.setup.outputs.go-version }}
-
     - name: Test Go Application
       run: go test -v ./...
     
-    - name: Generate Test Coverage
+    - name: Test and Coverage
       run: go test -v -coverprofile=coverage.txt ./...
 
-  codecov:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Upload Coverage Report to Codecov
+    - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
         file: ./coverage.txt
