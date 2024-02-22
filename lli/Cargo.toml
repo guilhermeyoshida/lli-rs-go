@@ -1,0 +1,17 @@
+[package]
+name = "lli"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "lli"
+crate-type = ["staticlib"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.80"
+parking_lot = "0.12.1"
+tiktoken-rs = "0.5.8"
+libc = "0.2.153"
+log = "0.4.20"
