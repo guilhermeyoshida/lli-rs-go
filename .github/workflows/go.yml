@@ -33,10 +33,6 @@ jobs:
     - name: Test Go Application
       run: go test -v ./...
 
-  test-and-coverage:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    steps:
     - name: Test and Coverage
       run: go test -v -coverprofile=coverage.txt ./...
 
