@@ -32,14 +32,17 @@ jobs:
 
     - name: Test Go Application
       run: go test -v ./...
-    
+
+  test-and-coverage:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
     - name: Test and Coverage
       run: go test -v -coverprofile=coverage.txt ./...
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v4.0.1
       with:
-        file: ./coverage.txt
-        flags: unittests
-        name: codecov-umbrella
+        token: ${{ secrets.CODECOV_TOKEN }}
+        slug: guilhermeyoshida/lli-tokenizer
         fail_ci_if_error: true
