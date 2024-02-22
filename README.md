@@ -1,3 +1,5 @@
+![CI](https://github.com/guilhermeyoshida/lli-tokenizer/actions/workflows/go.yml/badge.svg)
+
 # LLI: Rust Library for Tokenization with OpenAI Models
 The LLI library offers a Rust interface for tokenizing text, specifically tailored for use with OpenAI models, through a seamless integration with Go applications. Utilizing the tiktoken_rs library, LLI provides efficient text tokenization capabilities, making it easier to preprocess text for AI-driven analysis and processing.
 
